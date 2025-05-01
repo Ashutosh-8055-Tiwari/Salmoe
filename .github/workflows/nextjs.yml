@@ -31,6 +31,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: |
+          touch .env.local
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_API_SUBURL=${{ secrets.NEXT_PUBLIC_API_SUBURL }}" >> .env.local
+          echo "NEXT_PUBLIC_COUNTRY_DROPDOWN=${{ secrets.NEXT_PUBLIC_COUNTRY_DROPDOWN }}" >> .env.local
+          echo "NEXT_PUBLIC_MAP_API=${{ secrets.NEXT_PUBLIC_MAP_API }}" >> .env.local
+          echo "NEXT_PUBLIC_WEB_NAME=${{ secrets.NEXT_PUBLIC_WEB_NAME }}" >> .env.local
+          echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}" >> .env.local
+          echo "NEXT_PUBLIC_DEMO_MODE=${{ secrets.NEXT_PUBLIC_DEMO_MODE }}" >> .env.local
+          echo "NEXT_PUBLIC_DEMO_LOGIN_NO=${{ secrets.NEXT_PUBLIC_DEMO_LOGIN_NO }}" >> .env.local
+          echo "NEXT_PUBLIC_DEMO_OTP=${{ secrets.NEXT_PUBLIC_DEMO_OTP }}" >> .env.local
+          echo "NEXT_PUBLIC_COUNTRY_CODE=${{ secrets.NEXT_PUBLIC_COUNTRY_CODE }}" >> .env.local
+          echo "NEXT_PUBLIC_COUNTRY_DIAL_CODE=${{ secrets.NEXT_PUBLIC_COUNTRY_DIAL_CODE }}" >> .env.local
+
+          
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -73,7 +97,30 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      
       - name: Build with Next.js
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_SUBURL: ${{ secrets.NEXT_PUBLIC_API_SUBURL }}
+          NEXT_PUBLIC_COUNTRY_DROPDOWN: ${{ secrets.NEXT_PUBLIC_COUNTRY_DROPDOWN }}
+          NEXT_PUBLIC_MAP_API: ${{ secrets.NEXT_PUBLIC_MAP_API }}
+          NEXT_PUBLIC_WEB_NAME: ${{ secrets.NEXT_PUBLIC_WEB_NAME }}
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
+          NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
+          NEXT_PUBLIC_DEMO_MODE: ${{ secrets.NEXT_PUBLIC_DEMO_MODE }}
+          NEXT_PUBLIC_DEMO_LOGIN_NO: ${{ secrets.NEXT_PUBLIC_DEMO_LOGIN_NO }}
+          NEXT_PUBLIC_DEMO_OTP: ${{ secrets.NEXT_PUBLIC_DEMO_OTP }}
+          NEXT_PUBLIC_COUNTRY_CODE: ${{ secrets.NEXT_PUBLIC_COUNTRY_CODE }}
+          NEXT_PUBLIC_COUNTRY_DIAL_CODE: ${{ secrets.NEXT_PUBLIC_COUNTRY_DIAL_CODE }}
+       
+
+      
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
