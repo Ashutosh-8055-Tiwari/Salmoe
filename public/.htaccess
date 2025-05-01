@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Redirect to remove 'www' from URLs
+  RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+  RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+  # Serve index.html for directory requests
+  DirectoryIndex index.html
+
+  # Custom 404 error page
+  ErrorDocument 404 /404.html
+
+  # Handle dynamic routes
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ /$1.html [L]
+</IfModule>
